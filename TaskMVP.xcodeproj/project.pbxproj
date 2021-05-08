@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		34D30380264442EB00A2AA1B /* MVPTableViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D3037F264442EB00A2AA1B /* MVPTableViewPresenter.swift */; };
+		34D303832646B4D100A2AA1B /* WebViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34D303822646B4D100A2AA1B /* WebViewPresenter.swift */; };
 		B6BAEF3C25F8D964006E7088 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6BAEF3B25F8D964006E7088 /* AppDelegate.swift */; };
 		B6BAEF4525F8D965006E7088 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6BAEF4425F8D965006E7088 /* Assets.xcassets */; };
 		B6BAEF4825F8D965006E7088 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6BAEF4625F8D965006E7088 /* LaunchScreen.storyboard */; };
@@ -22,6 +24,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		34D3037F264442EB00A2AA1B /* MVPTableViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MVPTableViewPresenter.swift; sourceTree = "<group>"; };
+		34D303822646B4D100A2AA1B /* WebViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewPresenter.swift; sourceTree = "<group>"; };
 		B6BAEF3825F8D964006E7088 /* TaskMVP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TaskMVP.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6BAEF3B25F8D964006E7088 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B6BAEF4425F8D965006E7088 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -49,6 +53,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		34D3037E264442D000A2AA1B /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				34D3037F264442EB00A2AA1B /* MVPTableViewPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		34D303812646B4BD00A2AA1B /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				34D303822646B4D100A2AA1B /* WebViewPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
 		B6BAEF2F25F8D964006E7088 = {
 			isa = PBXGroup;
 			children = (
@@ -83,6 +103,7 @@
 		B6BAEF5225F8D9D8006E7088 /* Web */ = {
 			isa = PBXGroup;
 			children = (
+				34D303812646B4BD00A2AA1B /* Presenter */,
 				B6BAEF5325F8D9D8006E7088 /* Controller */,
 			);
 			path = Web;
@@ -100,6 +121,7 @@
 		B6BAEF5625F8D9D8006E7088 /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				34D3037E264442D000A2AA1B /* Presenter */,
 				B6BAEF5725F8D9D8006E7088 /* Controller */,
 				B6BAEF5A25F8D9D8006E7088 /* View */,
 			);
@@ -214,9 +236,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				B6BAEF6525F8D9D8006E7088 /* MVPSearchViewController.swift in Sources */,
+				34D303832646B4D100A2AA1B /* WebViewPresenter.swift in Sources */,
 				B6BAEF6925F8D9D8006E7088 /* GithubAPI.swift in Sources */,
 				B6BAEF6825F8D9D8006E7088 /* GithubModel.swift in Sources */,
 				B6BAEF6A25F8D9D8006E7088 /* Router.swift in Sources */,
+				34D30380264442EB00A2AA1B /* MVPTableViewPresenter.swift in Sources */,
 				B6BAEF3C25F8D964006E7088 /* AppDelegate.swift in Sources */,
 				B6BAEF6725F8D9D8006E7088 /* MVPTableViewCell.swift in Sources */,
 				B6BAEF6325F8D9D8006E7088 /* WebViewController.swift in Sources */,

@@ -14,6 +14,8 @@ import UIKit
  if, guard, forといった制御を入れない
  Presenter以外のクラスを呼ばない
  itemsといった変化するパラメータを持たない(状態を持たない)
+ 
+ Presenterに通知を送る、Presenterから通知を受け取るのみ
 */
 final class MVPSearchViewController: UIViewController {
 
@@ -34,7 +36,29 @@ final class MVPSearchViewController: UIViewController {
     }
   }
 
-  private var items: [GithubModel] = []
+    /*
+     private let presenter = MVPTableViewPresenter()
+     にして、viewDidLoad内で
+     presenter.output = self
+     としても動くけど推奨じゃない理由（考察）
+     
+     コントローラー内でインスタンス化することによってコントローラーのテストをする際に
+     コントローラーだけでなくpresenterの動作も関連してくる
+     presenterでURLセッションを行なっているのでネットワークエラーのせいでテストが失敗することもあり得る
+     → コントローラーとは直接関係ないところでテストが失敗してしまう
+     外部でインスタンス化すればコントローラーはpresenterクラスのメソッドの中身を知る必要がないため
+     コントローラー単体でテストできる
+     だからinjectする書き方の方が良い
+     
+     ↑正解！
+     + テスト用プロトコルに差し替えするのも簡単 (メンターより）
+     */
+    
+    private var presenter: MVPTableViewPresenter!
+    //presenterとvcを繋ぐメソッド
+    func inject(presenter: MVPTableViewPresenter){
+        self.presenter = presenter
+    }
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -43,43 +67,53 @@ final class MVPSearchViewController: UIViewController {
   }
 
   @objc func tapSearchButton(_sender: UIResponder) {
-    guard let searchWord = searchTextField.text, !searchWord.isEmpty else { return }
-    indicator.isHidden = false
-    tableView.isHidden = true
-    GithubAPI.shared.get(searchWord: searchWord) { result in
-      DispatchQueue.main.async {
-        self.indicator.isHidden = true
-        self.tableView.isHidden = false
-        switch result {
-        case .failure(let error):
-          print(error)
-        case .success(let items):
-          self.items = items
-          self.tableView.reloadData()
-        }
-      }
-    }
+    presenter.searchText(searchWord: searchTextField.text)
   }
 }
 
 extension MVPSearchViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     tableView.deselectRow(at: indexPath, animated: true)
-    Router.shared.showWeb(from: self, githubModel: items[indexPath.item])
+    presenter.didSelect(index: indexPath.row)
   }
 }
 
 extension MVPSearchViewController: UITableViewDataSource {
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    items.count
+    presenter.numberOfItems
   }
 
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     guard let cell = tableView.dequeueReusableCell(withIdentifier: MVPTableViewCell.className) as? MVPTableViewCell else {
       fatalError()
     }
-    let githubModel = items[indexPath.item]
-    cell.configure(githubModel: githubModel)
+    cell.configure(githubModel: presenter.item(index: indexPath.row))
     return cell
   }
+}
+
+extension MVPSearchViewController: MVPTableViewOutput{
+    
+    func alert(error: Error) {
+        //エラーを表示する(今回はしない)
+        print(error)
+    }
+    
+    func willSearch() {
+        indicator.isHidden = false
+        tableView.isHidden = true
+    }
+    
+    func didFinishSearch() {
+        self.indicator.isHidden = true
+        self.tableView.isHidden = false
+    }
+    
+    func update() {
+        self.tableView.reloadData()
+    }
+    
+    func showWeb(item: GithubModel) {
+        Router.shared.showWeb(from: self, githubModel: item)
+    }
 }

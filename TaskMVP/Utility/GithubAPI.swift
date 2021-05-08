@@ -16,7 +16,13 @@ enum GithubError: Error {
   case error
 }
 
-final class GithubAPI {
+//クラスのままだと疎結合じゃない
+//プロトコルのいいところ：メソッドの中身を知らなくていいところ → ２つのクラスが連携しなくて済む
+protocol GithubAPIProtocol{
+    func get(searchWord: String, completion: ((Result<[GithubModel], GithubError>) -> Void)?)
+}
+
+final class GithubAPI: GithubAPIProtocol {
   static let shared = GithubAPI()
 
   private init() {}
